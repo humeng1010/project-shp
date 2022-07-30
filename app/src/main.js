@@ -8,7 +8,6 @@ import TypeNav from '@/pages/Home/TypeNav';
 Vue.component(TypeNav.name, TypeNav)
 // 测试接口
 import { reqCategoryList } from '@/api';
-
 reqCategoryList()
 
 Vue.config.productionTip = false
