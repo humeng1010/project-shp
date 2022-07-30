@@ -41,7 +41,6 @@
             id="autocomplete"
             class="input-error input-xxlarge"
             v-model="keyword"
-            @keyup.enter="goSearch"
           />
           <button
             class="sui-btn btn-xlarge btn-danger"
@@ -67,12 +66,22 @@ export default {
   methods: {
     // 搜索按钮的回调函数，向search路由跳转
     goSearch() {
-      this.$router.push({
-        path: "/search",
-        query: {
-          keyword: this.keyword,
-        },
-      });
+      this.$router.push(
+        {
+          // path: "/search",
+          // params参数只能和name配合使用
+          name: "search",
+          query: {
+            k: this.keyword.toUpperCase(),
+          },
+          params: {
+            keyword: this.keyword,
+          },
+        }
+        // 通过重写router原型对象上的push方法，实现当重复push的时候控制台不会出现报错，从根源上解决问题
+        // () => {},
+        // (error) => {}
+      );
     },
   },
 };
