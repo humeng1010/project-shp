@@ -9,6 +9,7 @@
     <Floor></Floor>
     <Floor></Floor>
     <Brand></Brand>
+    <!-- 测试vuex -->
   </div>
 </template>
 
