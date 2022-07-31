@@ -6,7 +6,8 @@
         <!-- 当鼠标离去全部商品分类的时候再移除背景色 -->
         <h2 class="all">全部商品分类</h2>
         <div class="sort">
-          <div class="all-sort-list2">
+          <!-- 编程式导航+事件委派 -->
+          <div class="all-sort-list2" @click="goSearch">
             <!-- 遍历categoryList 得到category 第一层 -->
             <div
               class="item"
@@ -17,7 +18,11 @@
             >
               <!-- 大标题 -->
               <h3>
-                <a href="">{{ c1.categoryName }}</a>
+                <!-- 这里不建议使用声明式导航，因为一次性创建太多的组件十分消耗内存 -->
+                <!-- <router-link to=""></router-link> -->
+                <!-- 单独使用编程式导航会给每一个都绑定到点击事件也不是很好 -->
+                <!-- 解决办法，给父元素添加点击事件进行事件委派+编程式导航 -->
+                <a>{{ c1.categoryName }}</a>
               </h3>
               <!-- 展示区 -->
               <div
@@ -32,12 +37,12 @@
                   <!-- 遍历第二层从category.categoryChild中得到categoryC -->
                   <dl class="fore">
                     <dt>
-                      <a href="">{{ c2.categoryName }}</a>
+                      <a>{{ c2.categoryName }}</a>
                     </dt>
                     <dd>
                       <!-- 遍历第三层 -->
                       <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
-                        <a href="">{{ c3.categoryName }}</a>
+                        <a>{{ c3.categoryName }}</a>
                       </em>
                     </dd>
                   </dl>
@@ -63,6 +68,8 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+// 引入lodash下的throttle
+import throttle from "lodash/throttle";
 export default {
   name: "TypeNav",
   data() {
@@ -88,13 +95,16 @@ export default {
   },
   methods: {
     ...mapActions("home", { getCategoryList: "categoryList" }),
-    // 鼠标移入触发回调
-    changeIndex(index) {
+    // 鼠标移入触发回调(节流)
+    changeIndex: throttle(function (index) {
       this.currentIndex = index;
-      // console.log(this.currentIndex);
-    },
+    }, 16),
+    // 鼠标离去
     leaveIndex() {
       this.currentIndex = -1;
+    },
+    goSearch() {
+      this.$router.push("/search");
     },
   },
 };
