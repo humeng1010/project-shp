@@ -46,7 +46,7 @@ export default new VueRouter({
         {
             // 指定params参数可传可不传加上一个问号'?'
             name: "search",
-            path: "/search/:keyword?",
+            path: "/search",
             component: Search,
             meta: { show: true },
             // 路由组件能不能传递props数据？
@@ -58,8 +58,7 @@ export default new VueRouter({
             // 形式三：函数写法
             props($route) {
                 return {
-                    k: $route.query.k,
-                    keyword: $route.params.keyword,
+                    categoryName: $route.query.categoryName,
                 }
             }
         },

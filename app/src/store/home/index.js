@@ -23,6 +23,10 @@ const state = {
 
 }
 const getters = {
+    // 限制categoryList中的数组长度 防止超出盒子
+    categorylist(state) {
+        return state.categoryList.splice(1, 15);
+    }
 
 }
 export default {

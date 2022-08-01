@@ -70,13 +70,13 @@ export default {
         {
           // path: "/search",
           // params参数只能和name配合使用
-          name: "search",
+          path: "/search",
           query: {
-            k: this.keyword.toUpperCase(),
+            categoryName: this.keyword,
           },
-          params: {
+          /* params: {
             keyword: this.keyword,
-          },
+          }, */
         }
         // 通过重写router原型对象上的push方法，实现当重复push的时候控制台不会出现报错，从根源上解决问题
         // () => {},
