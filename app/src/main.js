@@ -8,6 +8,8 @@ import TypeNav from '@/components/TypeNav';
 Vue.component(TypeNav.name, TypeNav)
 // 引入vuex仓库
 import store from './store';
+// 引入mockServe.js----mock数据
+import "@/mock/mockServe"
 
 // 测试接口
 // import { reqCategoryList } from '@/api';
