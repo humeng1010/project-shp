@@ -5,8 +5,12 @@
         <!--banner轮播-->
         <div class="swiper-container" id="mySwiper">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/banner1.jpg" />
+            <div
+              class="swiper-slide"
+              v-for="(carousel, index) in bannerList"
+              :key="carousel.id"
+            >
+              <img :src="carousel.imgUrl" />
             </div>
           </div>
           <!-- 如果需要分页器 -->
@@ -91,8 +95,42 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
+// 引swiper
+import Swiper from "swiper";
 export default {
   name: "ListContainer",
+  computed: {
+    ...mapState("home", ["bannerList"]),
+  },
+  mounted() {
+    // 派发action：通过Vuex发起ajax请求，将数据存储到store中
+    // this.$store.dispatch("home/getBannerList");
+    // 派发action
+    this.getBannerList();
+
+    setTimeout(() => {
+      var mySwiper = new Swiper("#mySwiper", {
+        loop: true, // 循环模式选项
+        autoplay: true,
+
+        // 如果需要分页器
+        pagination: {
+          el: ".swiper-pagination",
+        },
+
+        // 如果需要前进后退按钮
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
+    }, 1000);
+  },
+  methods: {
+    // 使用mapActions映射获取到$store中actions中的方法
+    ...mapActions("home", ["getBannerList"]),
+  },
 };
 </script>
 

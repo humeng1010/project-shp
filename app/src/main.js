@@ -9,7 +9,9 @@ Vue.component(TypeNav.name, TypeNav)
 // 引入vuex仓库
 import store from './store';
 // 引入mockServe.js----mock数据
-import "@/mock/mockServe"
+import "@/mock/mockServe";
+// 引入swiper的样式
+import "swiper/css/swiper.css"
 
 // 测试接口
 // import { reqCategoryList } from '@/api';

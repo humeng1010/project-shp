@@ -1,4 +1,4 @@
-import { reqCategoryList } from '@/api';
+import { reqCategoryList, reqGetBannerList } from '@/api';
 // home模块数据仓库
 const actions = {
     // 通过API里面的接口函数调用，向服务器发送请求，获取服务器的数据
@@ -9,17 +9,33 @@ const actions = {
             commit('CATEGORYLIST', res.data)
         }
 
+    },
+
+    // 获取首页轮播图的数据
+    async getBannerList({ commit }) {
+        let res = await reqGetBannerList();
+        // console.log(res);
+        if (res.code === 200) {
+            commit("GETBANNERLIST", res.data)
+        }
     }
+
+
 
 }
 const mutations = {
+    // 修改商品列表
     CATEGORYLIST(state, categoryList) {
         state.categoryList = categoryList
+    },
+    // 修改banner图
+    GETBANNERLIST(state, bannerList) {
+        state.bannerList = bannerList
     }
-
 }
 const state = {
-    categoryList: []
+    categoryList: [],
+    bannerList: []
 
 }
 const getters = {
