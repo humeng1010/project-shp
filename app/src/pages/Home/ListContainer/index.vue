@@ -109,7 +109,8 @@ export default {
     // 派发action
     this.getBannerList();
 
-    setTimeout(() => {
+    // 使用$nextTick处理上面的异步请求进入到异步任务队列中导致原先的下面的同步代码先执行的问题
+    this.$nextTick(() => {
       var mySwiper = new Swiper("#mySwiper", {
         loop: true, // 循环模式选项
         autoplay: true,
@@ -125,7 +126,26 @@ export default {
           prevEl: ".swiper-button-prev",
         },
       });
-    }, 1000);
+    });
+
+    // 暂时使用定时器 改进方法 this.$nextTick(()=>{var mySwiper = new Swiper("#mySwiper",{...})})
+    /* setTimeout(() => {
+      var mySwiper = new Swiper("#mySwiper", {
+        loop: true, // 循环模式选项
+        autoplay: true,
+
+        // 如果需要分页器
+        pagination: {
+          el: ".swiper-pagination",
+        },
+
+        // 如果需要前进后退按钮
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
+    }, 1000); */
   },
   methods: {
     // 使用mapActions映射获取到$store中actions中的方法
