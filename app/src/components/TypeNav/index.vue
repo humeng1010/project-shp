@@ -142,8 +142,15 @@ export default {
           query.category3Id = category3id;
         }
       }
-      location.query = query;
-      this.$router.push(location);
+      // 判断如果路由跳转的时候，params中有参数，也要被携带过去
+      if (this.$route.params.keyword) {
+        location.params = this.$route.params;
+        location.query = query;
+        this.$router.push(location);
+      } else {
+        location.query = query;
+        this.$router.push(location);
+      }
     },
   },
 };

@@ -35,12 +35,14 @@
         </router-link>
       </h1>
       <div class="searchArea">
-        <form action="###" class="searchForm">
+        <!-- @submit.prevent 阻止表单提交的默认事件 -->
+        <form action="#" class="searchForm" @submit.prevent>
           <input
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
             v-model="keyword"
+            @keyup.enter="goSearch"
           />
           <button
             class="sui-btn btn-xlarge btn-danger"
@@ -66,22 +68,25 @@ export default {
   methods: {
     // 搜索按钮的回调函数，向search路由跳转
     goSearch() {
-      this.$router.push(
-        {
-          // path: "/search",
-          // params参数只能和name配合使用
-          path: "/search",
-          query: {
-            categoryName: this.keyword,
-          },
-          /* params: {
-            keyword: this.keyword,
-          }, */
-        }
-        // 通过重写router原型对象上的push方法，实现当重复push的时候控制台不会出现报错，从根源上解决问题
-        // () => {},
-        // (error) => {}
-      );
+      let location = {
+        // params参数只能和name配合使用
+        name: "search",
+        params: {
+          keyword: this.keyword,
+        },
+      };
+      // 如果用户通过搜索框搜索 那么我们先判断有没有query参数(三级联动的) 如果有那么就给添加上
+      if (
+        this.$route.query.categoryName &&
+        (this.$route.query.category1Id ||
+          this.$route.query.category2Id ||
+          this.$route.query.category3Id)
+      ) {
+        location.query = this.$route.query;
+        this.$router.push(location);
+      } else {
+        this.$router.push(location);
+      }
     },
   },
 };
