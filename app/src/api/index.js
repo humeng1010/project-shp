@@ -12,3 +12,6 @@ export const reqCategoryList = () => requests({ method: "GET", url: "/product/ge
 
 // 获取banner(mock)
 export const reqGetBannerList = () => mockRequests.get("/banner");
+
+// 获取floor数据
+export const reqFloorList = () => mockRequests.get("/floor");

@@ -3,7 +3,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
+        <div class="swiper-container" ref="mySwiper">
           <div class="swiper-wrapper">
             <div
               class="swiper-slide"
@@ -108,48 +108,35 @@ export default {
     // this.$store.dispatch("home/getBannerList");
     // 派发action
     this.getBannerList();
-
-    // 使用$nextTick处理上面的异步请求进入到异步任务队列中导致原先的下面的同步代码先执行的问题
-    this.$nextTick(() => {
-      var mySwiper = new Swiper("#mySwiper", {
-        loop: true, // 循环模式选项
-        autoplay: true,
-
-        // 如果需要分页器
-        pagination: {
-          el: ".swiper-pagination",
-        },
-
-        // 如果需要前进后退按钮
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-      });
-    });
-
-    // 暂时使用定时器 改进方法 this.$nextTick(()=>{var mySwiper = new Swiper("#mySwiper",{...})})
-    /* setTimeout(() => {
-      var mySwiper = new Swiper("#mySwiper", {
-        loop: true, // 循环模式选项
-        autoplay: true,
-
-        // 如果需要分页器
-        pagination: {
-          el: ".swiper-pagination",
-        },
-
-        // 如果需要前进后退按钮
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-      });
-    }, 1000); */
   },
   methods: {
     // 使用mapActions映射获取到$store中actions中的方法
     ...mapActions("home", ["getBannerList"]),
+  },
+  watch: {
+    // 监听bannerList数据的变化,因为这个数据由空数组变为含有4个数组元素
+    bannerList: {
+      handler(newValue, oldValue) {
+        // 在下次页面更新 循环结束后 执行延迟回调 在修改数据之后立即执行使用这个方法，获取更新后的DOM
+        this.$nextTick(() => {
+          var mySwiper = new Swiper(this.$refs.mySwiper, {
+            loop: true, // 循环模式选项
+            autoplay: true,
+
+            // 如果需要分页器
+            pagination: {
+              el: ".swiper-pagination",
+            },
+
+            // 如果需要前进后退按钮
+            navigation: {
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            },
+          });
+        });
+      },
+    },
   },
 };
 </script>
