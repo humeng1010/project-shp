@@ -4,9 +4,6 @@
     <!-- 路由组件出口的地方 -->
     <router-view></router-view>
     <Footer v-show="$route.meta.show"></Footer>
-    <!-- <Footer
-      v-show="$route.path === '/home' || $route.path === '/search'"
-    ></Footer> -->
   </div>
 </template>
 
